@@ -72,6 +72,8 @@ class LinearRegression(BaseEstimator):
         responses : ndarray of shape (n_samples, )
             Predicted responses of given samples
         """
+        if self.include_intercept_:
+            X = np.insert(X, 0, 1, axis=1)
         return X @ self.coefs_
 
     def _loss(self, X: np.ndarray, y: np.ndarray) -> float:
@@ -91,8 +93,6 @@ class LinearRegression(BaseEstimator):
         loss : float
             Performance under MSE loss function
         """
-        if self.include_intercept_:
-            X = np.insert(X, 0, 1, axis=1)
         mse = mean_square_error(y, self._predict(X))
         return mse
 
